@@ -1,11 +1,9 @@
 -module(kennel_version_h).
 
--export([init/3, handle/2, terminate/3]).
+-export([init/2]).
 
-init(_Transport, Req, []) ->
-    {ok, Req, undefined}.
 
-handle(Req, State) ->
+init(Req, Opts) ->
     {ok, Context} = kennel:context(Req),
     io:format("ctx: ~p~n", [Context]),
     R = [
@@ -18,13 +16,11 @@ handle(Req, State) ->
          {'ApiVersion',     kennel:api_version()},
          {'Experimental',   true}
         ],
-    {ok, Req2} = cowboy_req:reply(200, [
-                                        {<<"content-type">>, <<"text/plain">>}
-                                       ], jsx:encode(R), Req),
-    {ok, Req2, State}.
-
-terminate(_Reason, _Req, _State) ->
-    ok.
+    Req2 = cowboy_req:reply(
+             200, [
+                   {<<"content-type">>, <<"application/json">>}
+                  ], jsx:encode(R), Req),
+    {ok, Req2, Opts}.
 
 uname(Args) ->
     list_to_binary(lib:nonl(os:cmd("uname " ++ Args))).

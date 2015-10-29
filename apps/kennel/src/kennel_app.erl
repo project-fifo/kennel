@@ -16,6 +16,23 @@
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
+    {ok, Acceptors} = application:get_env(kennel, acceptors),
+    {ok, SSLPort} = application:get_env(kennel, ssl_port),
+    {ok, SSLCA} = application:get_env(kennel, ssl_cacertfile),
+    {ok, SSLCert} = application:get_env(kennel, ssl_certfile),
+    {ok, SSLKey} = application:get_env(kennel, ssl_keyfile),
+    V = <<"/v1.20/">>,
+    DPRules = [{<<V/binary, "containers/json">>, kennel_list_h, []}],
+    Dispatch = cowboy_router:compile([{'_', DPRules}]),
+    {ok, _} = cowboy:start_https(https, Acceptors,
+                                 [{port, SSLPort},
+                                  {cacertfile, SSLCA},
+                                  {certfile, SSLCert},
+                                  {keyfile, SSLKey}
+                                 %%, {fail_if_no_peer_cert, true}
+                                 , {verify, verify_peer}
+                                 ],
+                                 [{env, [{dispatch, Dispatch}]}]),
     'kennel_sup':start_link().
 
 %%--------------------------------------------------------------------

@@ -5,7 +5,11 @@
   {mod, {'kennel_app', []}},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    cowboy,
+    lager,
+    libsnarl,
+    libsniffle
    ]},
   {env,[]},
   {modules, []},

@@ -21,8 +21,11 @@ start(_StartType, _StartArgs) ->
     {ok, SSLCA} = application:get_env(kennel, ssl_cacertfile),
     {ok, SSLCert} = application:get_env(kennel, ssl_certfile),
     {ok, SSLKey} = application:get_env(kennel, ssl_keyfile),
-    V = <<"/v1.20/">>,
-    DPRules = [{<<V/binary, "containers/json">>, kennel_list_h, []}],
+    V = <<"/v", (kennel:api_version())/binary, "/">>,
+    DPRules = [
+               {<<V/binary, "containers/json">>, kennel_list_h, []},
+               {<<V/binary, "version">>, kennel_version_h, []}
+              ],
     Dispatch = cowboy_router:compile([{'_', DPRules}]),
     {ok, _} = cowboy:start_https(https, Acceptors,
                                  [{port, SSLPort},
@@ -42,3 +45,5 @@ stop(_State) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
+
+

@@ -23,9 +23,24 @@ start(_StartType, _StartArgs) ->
     {ok, SSLKey} = application:get_env(kennel, ssl_keyfile),
     V = "/v" ++ binary_to_list(kennel:api_version()),
     DPRules = [
-               {V ++ "/containers/json", kennel_list_h, []},
-               {V ++ "/version", kennel_version_h, []}
+               {V ++ "/containers/json", kennel_h, #{handler => kennel_list_h}},
+               {V ++ "/containers/create", kennel_h, #{handler => kennel_create_h}},
+               {V ++ "/containers/:id/start", kennel_h, #{handler => kennel_start_h}},
+               {V ++ "/containers/:id/stop", kennel_h, #{handler => kennel_stop_h}},
+               {V ++ "/containers/:id/restart", kennel_h, #{handler => kennel_restart_h}},
+               {V ++ "/containers/:id/kill", kennel_h, #{handler => kennel_kill_h}},
+               {V ++ "/containers/:id/pause", kennel_h, #{handler => kennel_pause_h}},
+               {V ++ "/containers/:id/rename", kennel_h, #{handler => kennel_rename_h}},
+
+               {V ++ "/containers/:id/wait", kennel_h, #{handler => kennel_wait_h}},
+
+               {V ++ "/version", kennel_h, #{handler => kennel_version_h}}
               ],
+    Handlers =
+        [kennel_list_h, kennel_create_h, kennel_version_h,
+         kennel_start_h, kennel_stop_h, kennel_restart_h, kennel_kill_h,
+         kennel_rename_h, kennel_pause_h, kennel_wait_h],
+    [H:module_info() || H <- Handlers],
     Dispatch = cowboy_router:compile([{'_', DPRules}]),
     {ok, _} = cowboy:start_https(https, Acceptors,
                                  [{port, SSLPort},

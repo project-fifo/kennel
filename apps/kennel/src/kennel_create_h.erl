@@ -32,6 +32,7 @@ post(Req, #{user := User} = State) ->
                          {<<"tty">>, Tty}
                          | Docker0]),
     Config = [
+              %%{<<"autoboot">>, false},
               {<<"owner">>, User},
               {<<"alias">>, Alias},
               {<<"docker">>, Docker},

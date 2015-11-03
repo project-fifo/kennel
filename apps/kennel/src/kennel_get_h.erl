@@ -36,5 +36,8 @@ vm_config(VM) ->
     Docker = ft_vm:docker(VM),
     lager:warning("[TODO] Fill out rest of the VM config"),
     #{
-       <<"Tty">> => jsxd:get([<<"tty">>], false, Docker)
+       <<"Tty">>          => jsxd:get([<<"tty">>], false, Docker),
+       <<"AttachStdin">>  => jsxd:get([<<"open_stdin">>], false, Docker),
+       <<"OpenStdin">>    => jsxd:get([<<"open_stdin">>], false, Docker),
+       <<"AttachStdout">> => true
      }.

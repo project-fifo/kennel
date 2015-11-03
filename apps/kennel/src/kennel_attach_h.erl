@@ -35,10 +35,8 @@ ensure_running(UUID, Socket) ->
         and (ft_vm:creating(V) =:= false),
     case Running of
         true ->
-            ssl:send(Socket, stdout(<<" done\r\n">>)),
             {ok, V};
         _ ->
-            ssl:send(Socket, stdout(<<".">>)),
             timer:sleep(1000),
             ensure_running(UUID,Socket)
     end.

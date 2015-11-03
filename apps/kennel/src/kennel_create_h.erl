@@ -20,7 +20,7 @@ post(Req, #{user := User} = State) ->
 
     {ok, Package} = find_package(HostConfig),
     Alias = Hostname,
-    U = ls_user:get(User),
+    {ok, U} = ls_user:get(User),
     lager:warning("[TODO] How to handle firewall rules here"),
     Networks = build_network(U, HostConfig),
     %% We should let a user define what host/bridge and use -p/P to decide if
@@ -76,9 +76,6 @@ find_package(#{
         _ ->
             {error, no_pkg}
     end.
-
-build_network(_User, #{<<"NetworkMode">> := <<"none">>}) ->
-    [];
 
 build_network(User, #{<<"PublishAllPorts">> := true}) ->
     net(<<"net0">>, User, <<"public">>) ++ net(<<"net1">>, User, <<"private">>);

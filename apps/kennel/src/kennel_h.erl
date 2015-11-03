@@ -47,9 +47,37 @@ validate_id(Req, State) ->
     check_permission(Req, State).
 
 
-check_permission(Req, State) ->
-    lager:warning("[TODO] Check permissions"),
-    check_method(Req, State).
+
+
+check_permission(Req, State = #{user := User, handler := H, scope := Scope}) ->
+    case erlang:function_exported(H, permission, 1) of
+        true ->
+            P = H:permission(State),
+            case has_permission(User, Scope, P) of
+                true ->
+                    check_method(Req, State);
+                false ->
+                    Req2 = cowboy_req:reply(403, [], "", Req),
+                    {ok, Req2, State}
+            end;
+        false ->
+            check_method(Req, State)
+    end.
+
+has_permission(User, Scope, Permission) ->
+    libsnarl:allowed(User, Permission) andalso
+        scope_allowed(Scope, Permission).
+
+scope_allowed(Scope, Permission) ->
+    {ok, Scopes} = ls_oauth:scope(Scope),
+    ScopeP = scope_perms(Scopes, []),
+    libsnarlmatch:test_perms(Permission, ScopeP).
+
+scope_perms([], Acc) ->
+    lists:usort(Acc);
+
+scope_perms([#{permissions := Perms} | R], Acc) ->
+    scope_perms(R, Acc ++ Perms).
 
 check_method(Req, State = #{method := Verb, handler := H}) ->
     case erlang:function_exported(H, Verb, 2) of

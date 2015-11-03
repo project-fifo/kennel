@@ -2,10 +2,12 @@
 
 -export([get/2]).
 
-get(Req, State) ->
-    lager:warning("[TODO] Query smarter?"),
-    Conditions = [],
+get(Req, State = #{user := User}) ->
+    {ok, Permissions} = ls_user:cache(User),
+    Conditions = [{must, '=:=', <<"vm_type">>, docker},
+                  {must, 'allowed',
+                   [<<"vms">>, {<<"res">>, <<"uuid">>}, <<"get">>],
+                   Permissions}],
     {ok, VMs} = ls_vm:list(Conditions, true),
-    VMs1 = [kennel:to_docker(VM) || {_, VM} <- VMs],
-    Res = [VM || VM <- VMs1, VM =/= no_docker],
+    Res = [kennel:to_docker(VM) || {_, VM} <- VMs],
     {ok, Res, Req, State}.

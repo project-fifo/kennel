@@ -2,7 +2,7 @@
 
 -export([post/2]).
 
-post(Req, #{ctx := Context} = State) ->
+post(Req, #{user := User} = State) ->
     lager:warning("[TODO] The ID should be generated in sniffle?"),
     ID = kennel:docker_id(),
     {ok, Body, Req1} = cowboy_req:body(Req),
@@ -12,16 +12,16 @@ post(Req, #{ctx := Context} = State) ->
        <<"Tty">>        := Tty,
        <<"Image">>      := Image,
        <<"Hostname">>   := Hostname,
-       <<"HostConfig">> := #{
-           <<"CpuQuota">>   := CpuCap,
-           <<"Memory">>     := Ram
-          }
+       <<"HostConfig">> := HostConfig
      } = JSON = jsone:decode(Body),
-    {ok, Package} = find_package(Ram, CpuCap),
-    {ok, Owner} = jsxd:get([<<"resource_owner">>], Context),
+
+    {ok, Package} = find_package(HostConfig),
     Alias = Hostname,
-    lager:warning("[TODO] Need to figure out the network ID, but HOW?!?!"),
-    Network = <<"fd060fd4-b5cd-4fef-911b-a5023d8b3bb4">>,
+    U = ls_user:get(User),
+    lager:warning("[TODO] How to handle firewall rules here"),
+    Networks = build_network(U, HostConfig),
+    %% We should let a user define what host/bridge and use -p/P to decide if
+    %% we want private only or public
     %% this is just stupid but we need to configm with vmadm ...
     Docker0 = mk_docker(JSON),
     Docker = lists:sort([{<<"id">>, ID},
@@ -29,10 +29,10 @@ post(Req, #{ctx := Context} = State) ->
                          {<<"tty">>, Tty}
                          | Docker0]),
     Config = [
-              {<<"owner">>, Owner},
+              {<<"owner">>, User},
               {<<"alias">>, Alias},
               {<<"docker">>, Docker},
-              {<<"networks">>, [{<<"net0">>, Network}]}
+              {<<"networks">>, Networks}
              ],
     Warnings = case ls_vm:create(Package, {docker, Image}, Config) of
                    {ok, UUID} ->
@@ -48,9 +48,52 @@ post(Req, #{ctx := Context} = State) ->
      },
     {ok, Res, Req1, State}.
 
-find_package(_Ram, _CpuCap) ->
-    lager:warning("[TODO] Need to actually look up a package"),
-    {ok, <<"42bf38f3-5632-49cb-82ce-973a04c3a8f6">>}.
+find_package(#{
+           <<"CpuQuota">>   := CpuCap,
+           <<"Memory">>     := Ram
+          }) ->
+    %% The goal is to find the smalrest fitting package
+    Rules = [
+             %% We only look at packages that have at least
+             %% the requested ammount of memory and cpu
+             {must, '>=', <<"cpu_cap">>, CpuCap},
+             {must, '>=', <<"ram">>, Ram},
+             %% Memory is the driving factor by ranking
+             %% based on memory the packages with
+             %% the least memory will be returned 'first'
+             {scale, <<"ram">>, 0, 10000},
+             %% We use CPU as a tie-breaker in case we have multiple
+             %% pacakges with the same ram
+             {scale, <<"cpu_cap">>, 0, 100}
+            ],
+    {ok, Res} = ls_package:list(Rules, false),
+    case Res of
+        [{_, Pkg} | _] ->
+            {ok, Pkg};
+        _ ->
+            {error, no_pkg}
+    end.
+
+build_network(_User, #{<<"NetworkMode">> := <<"none">>}) ->
+    [];
+
+build_network(User, #{<<"PublishAllPorts">> := true}) ->
+    net(<<"net0">>, User, <<"public">>) ++ net(<<"net1">>, User, <<"private">>);
+
+build_network(User, #{<<"PortBindings">> := #{}}) ->
+    net(<<"net0">>, User, <<"private">>);
+
+build_network(User, #{<<"PortBindings">> := _Ports}) ->
+    net(<<"net0">>, User, <<"public">>) ++ net(<<"net1">>, User, <<"private">>).
+
+net(NIC, User, Scope) ->
+    M = ft_user:metadata(User),
+    case jsxd:get([<<"fifo">>, <<"docker">>, <<"networks">>, Scope], M) of
+        {ok, N}  ->
+            [{NIC, N}];
+        _ ->
+            []
+    end.
 
 mk_docker(#{<<"Entrypoint">> := Entrypoint,
             <<"User">>       := User,

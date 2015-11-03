@@ -1,6 +1,9 @@
 -module(kennel_start_h).
 
--export([post/2]).
+-export([permission/1, post/2]).
+
+permission(#{uuid := VM}) ->
+    [<<"vms">>, VM, <<"start">>].
 
 post(Req, State = #{uuid := UUID}) ->
     ok = loop(UUID),

@@ -25,6 +25,7 @@ start(_StartType, _StartArgs) ->
     DPRules = [
                {V ++ "/containers/json", kennel_h, #{handler => kennel_list_h}},
                {V ++ "/containers/create", kennel_h, #{handler => kennel_create_h}},
+               {V ++ "/containers/:id", kennel_h, #{handler => kennel_delete_h}},
                {V ++ "/containers/:id/json", kennel_h, #{handler => kennel_get_h}},
                {V ++ "/containers/:id/start", kennel_h, #{handler => kennel_start_h}},
                {V ++ "/containers/:id/stop", kennel_h, #{handler => kennel_stop_h}},
@@ -40,9 +41,10 @@ start(_StartType, _StartArgs) ->
                {V ++ "/version", kennel_h, #{handler => kennel_version_h}}
               ],
     Handlers =
-        [kennel_list_h, kennel_create_h, kennel_version_h, kennel_attach_h, kennel_get_h,
-         kennel_start_h, kennel_stop_h, kennel_restart_h, kennel_kill_h,
-         kennel_rename_h, kennel_pause_h, kennel_wait_h],
+        [kennel_list_h, kennel_create_h, kennel_version_h, kennel_attach_h,
+         kennel_get_h, kennel_start_h, kennel_stop_h, kennel_restart_h,
+         kennel_kill_h, kennel_rename_h, kennel_pause_h, kennel_wait_h,
+         kennel_delete_h],
     [H:module_info() || H <- Handlers],
     Dispatch = cowboy_router:compile([{'_', DPRules}]),
     {ok, _} = cowboy:start_https(https, Acceptors,
@@ -63,5 +65,4 @@ stop(_State) ->
 %%====================================================================
 %% Internal functions
 %%====================================================================
-
 

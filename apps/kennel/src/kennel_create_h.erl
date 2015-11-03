@@ -1,6 +1,9 @@
 -module(kennel_create_h).
 
--export([post/2]).
+-export([permission/1, post/2]).
+
+permission(_) ->
+    [<<"cloud">>, <<"docker">>, <<"create">>].
 
 post(Req, #{user := User} = State) ->
     lager:warning("[TODO] The ID should be generated in sniffle?"),

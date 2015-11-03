@@ -5,7 +5,10 @@
 %% I want to go on the record and say it's a horrible idea.
 -module(kennel_attach_h).
 
--export([post/2, upgrade/6]).
+-export([permission/1, post/2, upgrade/6]).
+
+permission(#{uuid := VM}) ->
+    [<<"vms">>, VM, <<"console">>].
 
 post(Req, State) ->
     %%lets grab the socket, so we can do stuff wiht it.

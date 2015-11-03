@@ -1,6 +1,9 @@
 -module(kennel_list_h).
 
--export([get/2]).
+-export([permission/1, get/2]).
+
+permission(_) ->
+    [<<"cloud">>, <<"vms">>, <<"list">>].
 
 get(Req, State = #{user := User}) ->
     {ok, Permissions} = ls_user:cache(User),

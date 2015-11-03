@@ -1,6 +1,9 @@
 -module(kennel_restart_h).
 
--export([post/2]).
+-export([permission/1, post/2]).
+
+permission(#{uuid := VM}) ->
+    [<<"vms">>, VM, <<"reboot">>].
 
 post(Req, State = #{uuid := UUID}) ->
     Fields = [{t, int}],

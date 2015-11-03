@@ -18,6 +18,8 @@ init(Req, State) ->
             State3 = case cowboy_req:method(Req) of
                          <<"POST">> ->
                              State2#{method => post};
+                         <<"DELETE">> ->
+                             State2#{method => delete};
                          <<"PUT">> ->
                              State2#{method => put};
                          <<"GET">> ->
@@ -101,12 +103,16 @@ run(Req, State = #{method := Verb, handler := H}) ->
                            {<<"content-type">>, <<"application/json">>}
                           ], jsone:encode(JSON), Req2),
             {ok, Req3, State1};
+        {no_content, Req2, State1} ->
+            Req3 = cowboy_req:reply(204, [], "", Req2),
+            {ok, Req3, State1};
+
         E ->
             E
     end.
 
 methods(H) ->
-    <<",", R/binary>> = methods(H, [get, post, put], <<>>),
+    <<",", R/binary>> = methods(H, [get, post, put, delete], <<>>),
     R.
 
 methods(H, [Verb | Rest], Acc) ->

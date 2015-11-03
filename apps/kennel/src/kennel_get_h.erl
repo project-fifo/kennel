@@ -1,6 +1,9 @@
 -module(kennel_get_h).
 
--export([get/2]).
+-export([permission/1, get/2]).
+
+permission(#{uuid := VM}) ->
+    [<<"vms">>, VM, <<"get">>].
 
 get(Req, State = #{vm := VM}) ->
     #{<<"Created">> := T} = R1 = kennel:to_docker(VM),

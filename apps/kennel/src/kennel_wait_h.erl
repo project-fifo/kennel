@@ -2,6 +2,13 @@
 
 -export([post/2]).
 
-post(Req, State) ->
-    cowboy_req:bindings(
-    {ok, #{<<"StatusCode">> => 0}, Req, State}.
+post(Req, State = #{uuid := UUID} ) ->
+    {ok, VM} = ls_vm:get(UUID),
+    Creatig = ft_vm:creating(VM),
+    if
+         Creatig == true ->
+            timer:sleep(1000),
+            post(Req, State);
+        true ->
+            {ok, #{<<"StatusCode">> => 0}, Req, State}
+    end.

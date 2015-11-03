@@ -9,7 +9,9 @@
     cowboy,
     lager,
     libsnarl,
-    libsniffle
+    libsniffle,
+    libchunter,
+    qdate
    ]},
   {env,[]},
   {modules, []},

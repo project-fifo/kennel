@@ -56,7 +56,7 @@ to_docker(VM) ->
             Ports = [],
             Labels = #{},
             SizeRw = 1,
-            {ok, SizeRootFs} = jsxd:get([<<"quota">>], Config),
+            SizeRootFs = jsxd:get([<<"quota">>], 0, Config),
             #{
                <<"Id">>         => ID,
                <<"Names">>      => Names,

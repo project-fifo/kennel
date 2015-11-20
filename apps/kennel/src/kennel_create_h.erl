@@ -1,4 +1,5 @@
 -module(kennel_create_h).
+-behaviour(kennel_h).
 
 -export([permission/1, post/2]).
 
@@ -9,7 +10,7 @@ post(Req, #{user := User} = State) ->
     lager:warning("[TODO] The ID should be generated in sniffle?"),
     ID = kennel:docker_id(),
     {ok, Body, Req1} = cowboy_req:body(Req),
-    io:format("Body: ~p~n", [Body]),
+    lager:info("[create]: ~s~n", [Body]),
     #{
        <<"OpenStdin">>  := OpenStdin,
        <<"Tty">>        := Tty,
@@ -79,12 +80,15 @@ find_package(#{
     end.
 
 build_network(User, #{<<"PublishAllPorts">> := true}) ->
-    net(<<"net0">>, User, <<"public">>) ++ net(<<"net1">>, User, <<"private">>);
+    both(User);
 
 build_network(User, #{<<"PortBindings">> := #{}}) ->
     net(<<"net0">>, User, <<"private">>);
 
 build_network(User, #{<<"PortBindings">> := _Ports}) ->
+    both(User).
+
+both(User) ->
     net(<<"net0">>, User, <<"public">>) ++ net(<<"net1">>, User, <<"private">>).
 
 net(NIC, User, Scope) ->

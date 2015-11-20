@@ -4,8 +4,11 @@
 %%
 %% I want to go on the record and say it's a horrible idea.
 -module(kennel_attach_h).
+-behaviour(kennel_h).
 
 -export([permission/1, post/2, upgrade/6]).
+
+-ignore_xref([upgrade/6]).
 
 permission(#{uuid := VM}) ->
     [<<"vms">>, VM, <<"console">>].
@@ -38,7 +41,7 @@ ensure_running(UUID, Socket) ->
             {ok, V};
         _ ->
             timer:sleep(1000),
-            ensure_running(UUID,Socket)
+            ensure_running(UUID, Socket)
     end.
 
 loop(Socket, Console, Req) ->
@@ -46,15 +49,12 @@ loop(Socket, Console, Req) ->
         %% We seem to need to strip this, not sure why it's
         %% ugly.
         {data, <<27, Data/binary>>} ->
-            io:format(">~p~n", [Data]),
             ssl:send(Socket, stdout(Data)),
             loop(Socket, Console, Req);
         {data, Data} ->
-            io:format(">~p~n", [Data]),
             ssl:send(Socket, stdout(Data)),
             loop(Socket, Console, Req);
         {ssl, Socket, Data} ->
-            io:format("<~p~n", [Data]),
             libchunter_console_server:send(Console, Data),
             ssl:setopts(Socket, [{active, once}]),
             loop(Socket, Console, Req);
@@ -65,7 +65,6 @@ loop(Socket, Console, Req) ->
             lager:error("Socket Error: ~p", [Reason]),
             {stop, Req}
     end.
-
 
 stdout(Data) ->
     Size = byte_size(Data),

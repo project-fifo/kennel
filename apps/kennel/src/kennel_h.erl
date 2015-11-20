@@ -2,6 +2,58 @@
 
 -export([init/2]).
 
+-ignore_xref([behaviour_info/1, init/2]).
+
+-type state() :: #{
+             method => method(),
+             ctx => list(),
+             user => binary(),
+             scope => binary()
+            }.
+
+-type method_reply() ::
+        {ok, term(), cowboy:req(), state()} |
+        {ok, cowboy:req(), state()} |
+        {stop, cowboy:req()} |
+        {module(), cowboy:req(), state()}.
+
+
+-type method() :: get |
+                  put |
+                  post |
+                  delete |
+                  update |
+                  trace |
+                  options |
+                  head |
+                  connect |
+                  undefined.
+
+-callback permission(state()) ->
+    true | [binary()].
+
+-callback get(cowboy:req(), state()) ->
+    method_reply().
+
+-callback put(cowboy:req(), state()) ->
+    method_reply().
+
+-callback post(cowboy:req(), state()) ->
+    method_reply().
+
+-callback delete(cowboy:req(), state()) ->
+    method_reply().
+
+-callback trace(cowboy:req(), state()) ->
+    method_reply().
+
+-callback update(cowboy:req(), state()) ->
+    method_reply().
+
+-optional_callbacks([get/2, put/2, post/2, delete/2, trace/2, update/2,
+                     permission/1]).
+
+
 init(Req, State) ->
     %% TODO propper error
     case kennel:context(Req) of
@@ -15,16 +67,7 @@ init(Req, State) ->
                          ID ->
                              State1#{id => ID}
                      end,
-            State3 = case cowboy_req:method(Req) of
-                         <<"POST">> ->
-                             State2#{method => post};
-                         <<"DELETE">> ->
-                             State2#{method => delete};
-                         <<"PUT">> ->
-                             State2#{method => put};
-                         <<"GET">> ->
-                             State2#{method => get}
-                     end,
+            State3 = State2#{method => method_to_atom(cowboy_req:method(Req))},
             validate_id(Req, State3);
         _ ->
             Req2 = cowboy_req:reply(
@@ -33,6 +76,28 @@ init(Req, State) ->
                           ], "", Req),
             {ok, Req2, State}
     end.
+
+method_to_atom(<<"GET">>) ->
+    get;
+method_to_atom(<<"PUT">>) ->
+    put;
+method_to_atom(<<"POST">>) ->
+    post;
+method_to_atom(<<"DELETE">>) ->
+    delete;
+method_to_atom(<<"UPDATE">>) ->
+    update;
+method_to_atom(<<"TRACE">>) ->
+    trace;
+method_to_atom(<<"OPTIONS">>) ->
+    options;
+method_to_atom(<<"HEAD">>) ->
+    head;
+method_to_atom(<<"CONNECT">>) ->
+    connect;
+method_to_atom(_) ->
+    undefined.
+
 
 validate_id(Req, State = #{id := ID}) ->
     case ls_vm:get_docker(ID) of

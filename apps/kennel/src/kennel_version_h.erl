@@ -1,6 +1,7 @@
 -module(kennel_version_h).
 
 -export([get/2]).
+-behaviour(kennel_h).
 
 get(Req, State) ->
     Res = [

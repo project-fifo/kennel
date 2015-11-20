@@ -1,6 +1,8 @@
 -module(kennel_restart_h).
+-behaviour(kennel_h).
 
 -export([permission/1, post/2]).
+
 
 permission(#{uuid := VM}) ->
     [<<"vms">>, VM, <<"reboot">>].

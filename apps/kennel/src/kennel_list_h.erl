@@ -1,4 +1,5 @@
 -module(kennel_list_h).
+-behaviour(kennel_h).
 
 -export([permission/1, get/2]).
 

@@ -1,4 +1,5 @@
 -module(kennel_pause_h).
+-behaviour(kennel_h).
 
 -export([permission/1, post/2]).
 

@@ -1,4 +1,5 @@
 -module(kennel_delete_h).
+-behaviour(kennel_h).
 
 -export([delete/2, permission/1]).
 

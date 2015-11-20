@@ -27,8 +27,10 @@ to_docker(VM) ->
             [Command | _] = case jsxd:get([<<"cmd">>], Docker) of
                                 {ok, <<"null">>} ->
                                     [<<"">>];
-                          {ok, Commands} ->
-                                    jsone:decode(Commands)
+                                {ok, Commands} ->
+                                    jsone:decode(Commands);
+                                _ ->
+                                    [<<"<image>">>]
                             end,
             {ok, ID} = jsxd:get([<<"id">>], Docker),
             Config = ft_vm:config(VM),

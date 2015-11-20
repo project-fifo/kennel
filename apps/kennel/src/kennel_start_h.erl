@@ -17,6 +17,9 @@ loop(UUID)  ->
         {error, creating} ->
             timer:sleep(1000),
             loop(UUID);
+        {error, not_deployed} ->
+            timer:sleep(1000),
+            loop(UUID);
         E ->
             E
     end.

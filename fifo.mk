@@ -23,6 +23,10 @@ lint: $(REBAR)
 $(REBAR):
 	cp `which rebar3` $(REBAR)
 
+upgrade: $(REBAR)
+	$(REBAR) upgrade 
+	make tree
+
 tree: $(REBAR)
 	$(REBAR) tree | grep -v '=' | sed 's/ (.*//' > tree
 

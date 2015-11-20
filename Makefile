@@ -22,7 +22,6 @@ update:
 
 rel: update
 	$(REBAR) as prod compile
-	sh generate_zabbix_template.sh
 	$(REBAR) as prod release
 
 package: rel

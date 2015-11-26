@@ -7,7 +7,7 @@
    [kernel,
     stdlib,
     cowboy,
-    lager,
+    fifo_lager,
     libsnarl,
     libsniffle,
     libchunter,

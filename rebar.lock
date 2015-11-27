@@ -4,7 +4,7 @@
   0},
  {<<"bugsnag">>,
   {git,"https://github.com/project-fifo/bugsnag-erlang.git",
-       {ref,"636626c4e3701e04237a8d6a7719b40e5f2e1295"}},
+       {ref,"b5ed371834f662e8cb09ded5dff5040bd6892afb"}},
   0},
  {<<"cf">>,{pkg,<<"cf">>,<<"0.2.1">>},2},
  {<<"cowboy">>,

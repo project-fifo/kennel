@@ -27,11 +27,18 @@ upgrade: $(REBAR)
 	$(REBAR) upgrade 
 	make tree
 
+update: $(REBAR)
+	$(REBAR) update
+
 tree: $(REBAR)
 	$(REBAR) tree | grep -v '=' | sed 's/ (.*//' > tree
+
+tree-diff: tree
+	git diff test -- tree
 
 ###
 ### Docs
 ###
 docs:
 	$(REBAR) edoc
+

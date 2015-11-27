@@ -14,6 +14,7 @@
     bugsnag,
     base16,
     jsxd,
+    fifo_dt,
     esel,
     qdate
    ]},

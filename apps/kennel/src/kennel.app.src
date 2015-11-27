@@ -11,6 +11,9 @@
     libsnarl,
     libsniffle,
     libchunter,
+    bugsnag,
+    base16,
+    esel,
     qdate
    ]},
   {env,[]},

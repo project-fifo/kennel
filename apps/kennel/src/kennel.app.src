@@ -13,6 +13,7 @@
     libchunter,
     bugsnag,
     base16,
+    jsxd,
     esel,
     qdate
    ]},

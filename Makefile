@@ -17,9 +17,6 @@ clean:
 long-test:
 	$(REBAR) as eqc,long eunit
 
-update:
-	$(REBAR) update
-
 rel: update
 	$(REBAR) as prod compile
 	$(REBAR) as prod release

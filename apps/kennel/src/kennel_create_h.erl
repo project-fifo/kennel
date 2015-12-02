@@ -79,20 +79,29 @@ find_package(#{
             {error, no_pkg}
     end.
 
-build_network(User, #{<<"PublishAllPorts">> := true}) ->
-    both(User);
+build_network(User, C) ->
+    OrgID = ft_user:active_org(User),
+    {ok, Org} = ls_org:get(OrgID),
+    build_network1(Org, C).
 
-build_network(User, #{<<"PortBindings">> := #{}}) ->
-    net(<<"net0">>, User, <<"private">>);
+build_network1(Org, #{<<"PublishAllPorts">> := true}) ->
+    both(Org);
 
-build_network(User, #{<<"PortBindings">> := _Ports}) ->
-    both(User).
+build_network1(Org, #{<<"PortBindings">> := #{}}) ->
+    net(<<"net0">>, Org, <<"private">>);
 
-both(User) ->
-    net(<<"net0">>, User, <<"public">>) ++ net(<<"net1">>, User, <<"private">>).
+build_network1(Org, #{<<"PortBindings">> := _Ports}) ->
+    both(Org).
 
-net(NIC, User, Scope) ->
-    M = ft_user:metadata(User),
+both(Org) ->
+    net(<<"net0">>, Org, <<"public">>) ++ net(<<"net1">>, Org, <<"private">>).
+
+%% Gets network mappings for the org.
+-spec net(binary(), ft_org:org(), binary()) ->
+                 [{binary(), binary()}].
+
+net(NIC, Org, Scope) ->
+    M = ft_org:metadata(Org),
     case jsxd:get([<<"fifo">>, <<"docker">>, <<"networks">>, Scope], M) of
         {ok, N}  ->
             [{NIC, N}];

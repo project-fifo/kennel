@@ -171,7 +171,12 @@ run(Req, State = #{method := Verb, handler := H}) ->
         {no_content, Req2, State1} ->
             Req3 = cowboy_req:reply(204, [], "", Req2),
             {ok, Req3, State1};
-
+        {error, not_found, Req2, State1} ->
+            Req3 = cowboy_req:reply(404, [], "", Req2),
+            {ok, Req3, State1};
+        {error, E, Req2, State1} ->
+            Req3 = cowboy_req:reply(503, [], atom_to_list(E), Req2),
+            {ok, Req3, State1};
         E ->
             E
     end.

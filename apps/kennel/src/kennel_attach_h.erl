@@ -10,6 +10,8 @@
 
 -ignore_xref([upgrade/6]).
 
+-define(TRIES, 60).
+
 permission(#{uuid := VM}) ->
     [<<"vms">>, VM, <<"console">>].
 
@@ -17,31 +19,55 @@ post(Req, State) ->
     %%lets grab the socket, so we can do stuff wiht it.
     {kennel_attach_h, Req, State}.
 
-upgrade(Req, _Env, _Handler, #{uuid := UUID}, infinity, run) ->
+upgrade(Req, _Env, _Handler, State = #{uuid := UUID}, infinity, run) ->
     Socket = cowboy_req:get(socket, Req),
     Reply = <<"HTTP/1.1 101 UPGRADED\n"
               "Content-Type: application/vnd.docker.raw-stream\n"
               "Connection: Upgrade\n"
               "Upgrade: tcp\n\n">>,
     ssl:send(Socket, Reply),
-    {ok, VM} = ensure_running(UUID, Socket),
-    HID = ft_vm:hypervisor(VM),
-    {ok, H} = ls_hypervisor:get(HID),
-    {Host, Port} = ft_hypervisor:endpoint(H),
-    {ok, Console} = libchunter:console_open(Host, Port, UUID, self()),
-    ssl:setopts(Socket, [{active, once}]),
-    loop(Socket, Console, Req).
+    case ensure_running(UUID, Socket, ?TRIES) of
+        {ok, VM} ->
+            HID = ft_vm:hypervisor(VM),
+            {ok, H} = ls_hypervisor:get(HID),
+            {Host, Port} = ft_hypervisor:endpoint(H),
+            {ok, Console} = libchunter:console_open(Host, Port, UUID, self()),
+            ssl:setopts(Socket, [{active, once}]),
+            loop(Socket, Console, Req);
+        {error, E} ->
+            {error, E, Req, State}
+    end.
 
-ensure_running(UUID, Socket) ->
-    {ok, V} = ls_vm:get(UUID),
-    Running = (ft_vm:state(V) =:= <<"running">>)
-        and (ft_vm:creating(V) =:= false),
-    case Running of
-        true ->
-            {ok, V};
-        _ ->
+is_running(V) ->
+    (ft_vm:state(V) =:= <<"running">>)
+        and (ft_vm:creating(V) =:= false).
+
+ensure_running(UUID, Socket, 1) ->
+    case ls_vm:get(UUID) of
+        {ok, V} ->
+            case is_running(V) of
+                true ->
+                    {ok, V};
+                _ ->
+                    {error, timeout}
+            end;
+        not_found ->
+            {error, not_found}
+    end;
+
+ensure_running(UUID, Socket, T) ->
+    case ls_vm:get(UUID) of
+        {ok, V} ->
+            case is_running(V) of
+                true ->
+                    {ok, V};
+                _ ->
+                    timer:sleep(1000),
+                    ensure_running(UUID, Socket, T - 1)
+            end;
+        not_found ->
             timer:sleep(1000),
-            ensure_running(UUID, Socket)
+            ensure_running(UUID, Socket, T - 1)
     end.
 
 loop(Socket, Console, Req) ->

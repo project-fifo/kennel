@@ -26,7 +26,7 @@
   1},
  {<<"erlware_commons">>,
   {git,"git://github.com/erlware/erlware_commons.git",
-       {ref,"0a4d2811f1f6ee76b273581dfe6f968b6e24977a"}},
+       {ref,"8a325c02912a20a877d861cc72021505c145daaa"}},
   1},
  {<<"esel">>,{pkg,<<"esel">>,<<"0.1.1">>},0},
  {<<"fifo_dt">>,

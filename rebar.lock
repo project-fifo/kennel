@@ -1,7 +1,4 @@
-[{<<"base16">>,
-  {git,"https://github.com/goj/base16.git",
-       {ref,"1e9dd28bdbcfb8f4aedf82b9900cfb0f094f137d"}},
-  0},
+[{<<"base16">>,{pkg,<<"base16">>,<<"1.0.0">>},0},
  {<<"bugsnag">>,
   {git,"https://github.com/project-fifo/bugsnag-erlang.git",
        {ref,"6bd45c3937627fc209ef75c8b20219876dd46159"}},

@@ -1,6 +1,6 @@
 {application, 'kennel',
- [{description, "An OTP application"},
-  {vsn, "0.1.0"},
+ [{description, "FiFo Docker API"},
+  {vsn, "0.7.1"},
   {registered, []},
   {mod, {'kennel_app', []}},
   {applications,

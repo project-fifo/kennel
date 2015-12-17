@@ -120,14 +120,14 @@ case "$1" in
             private)
                 shift
                 run kennel_console set_private $org $1
-            ;;
+                ;;
             *)
                 echo "Usage: "
                 echo "kennel set-net <org> public|private <network>"
                 exit 1
+                ;;
         esac
-
-        run kenne_console
+        ;;
 
     start)
         # Make sure there is not already a node running

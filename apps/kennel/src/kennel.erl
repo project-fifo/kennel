@@ -15,7 +15,7 @@ context(Req) ->
 
 
 api_version() ->
-    <<"1.21">>.
+    <<"1.20">>.
 
 docker_id() ->
     base16:encode(crypto:rand_bytes(6)).

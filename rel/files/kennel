@@ -103,6 +103,31 @@ case "$1" in
         shift
         run kennel_console connections $@
         ;;
+    get-net)
+        shift
+        org="$1"
+        run kennel_console get_nets $org
+        ;;
+    set-net)
+        shift
+        org="$1"
+        shift
+        case "$1" in
+            public)
+                shift
+                run kennel_console set_public $org $1
+                ;;
+            private)
+                shift
+                run kennel_console set_private $org $1
+                ;;
+            *)
+                echo "Usage: "
+                echo "kennel set-net <org> public|private <network>"
+                exit 1
+                ;;
+        esac
+        ;;
 
     start)
         # Make sure there is not already a node running
@@ -250,6 +275,8 @@ case "$1" in
 
     *)
         echo "Usage: $SCRIPT {start|stop|restart|reboot|ping|console|console_clean|attach|connections}"
+        echo "get-net <org>"
+        echo "set-net <org> public|private <network>"
         exit 1
         ;;
 esac

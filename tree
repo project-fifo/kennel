@@ -6,7 +6,7 @@
 │  ├─ getopt─0.4.3
 │  └─ neotoma─1.7.2
 ├─ eper─0.94.0
-├─ esel─0.1.1
+├─ esel─0.1.2
 ├─ fifo_lager─0.1.1
 │  ├─ lager_graylog─1
 │  └─ lager_logstash_backend─0.0.2
@@ -14,7 +14,7 @@
 ├─ jsone─1.2.0
 ├─ jsx─2.8.0
 ├─ jsxd─0.1.10
-├─ kennel─0.1.0
+├─ kennel─0.7.2
 ├─ lager─3.0.2
 │  └─ goldrush─0.1.7
 ├─ libchunter─0.1.42
@@ -22,13 +22,13 @@
 │     └─ fifo_dt─0.1.57
 │        ├─ riak_dt─2.1.1
 │        └─ uuid─0.4.7
-├─ libsnarl─0.3.36
+├─ libsnarl─0.3.38
 │  ├─ libsnarlmatch─0.1.7
-│  ├─ mdns_client_lib─0.1.30
+│  ├─ mdns_client_lib─0.1.33
 │  │  ├─ mdns_client─0.1.7
 │  │  └─ pooler─1.4.0
 │  └─ oauth2─0.6.0
-├─ libsniffle─0.3.32
+├─ libsniffle─0.3.34
 ├─ qdate─0.4.1
 │  ├─ erlang_localtime─1.0
 │  └─ erlware_commons─0.18.0

@@ -62,7 +62,9 @@ find_package(#{
              %% We only look at packages that have at least
              %% the requested ammount of memory and cpu
              {must, '>=', <<"cpu_cap">>, CpuCap},
-             {must, '>=', <<"ram">>, Ram},
+             %% Ram comes in bytes but packages use megabyte so
+             %% we need to convert that.
+             {must, '>=', <<"ram">>, Ram div (1024 * 1024)},
              %% Memory is the driving factor by ranking
              %% based on memory the packages with
              %% the least memory will be returned 'first'

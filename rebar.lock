@@ -1,7 +1,7 @@
 [{<<"base16">>,{pkg,<<"base16">>,<<"1.0.0">>},0},
  {<<"bugsnag">>,
   {git,"https://github.com/project-fifo/bugsnag-erlang.git",
-       {ref,"6bd45c3937627fc209ef75c8b20219876dd46159"}},
+       {ref,"2a1966b9682d2a325f70d4447b9a395342cde62b"}},
   0},
  {<<"cf">>,{pkg,<<"cf">>,<<"0.2.1">>},2},
  {<<"cowboy">>,

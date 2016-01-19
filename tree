@@ -10,16 +10,16 @@
 ├─ fifo_lager─0.1.1
 │  ├─ lager_graylog─1
 │  └─ lager_logstash_backend─0.0.2
-├─ fifo_utils─0.1.18
+├─ fifo_utils─0.1.19
 ├─ jsone─1.2.0
 ├─ jsx─2.8.0
 ├─ jsxd─0.1.10
 ├─ kennel─0.7.2
 ├─ lager─3.0.2
 │  └─ goldrush─0.1.7
-├─ libchunter─0.1.42
-│  └─ fifo_spec─0.1.23
-│     └─ fifo_dt─0.1.57
+├─ libchunter─0.1.43
+│  └─ fifo_spec─0.1.26
+│     └─ fifo_dt─0.1.60
 │        ├─ riak_dt─2.1.1
 │        └─ uuid─0.4.7
 ├─ libsnarl─0.3.38

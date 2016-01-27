@@ -1,3 +1,22 @@
+                                    "https://github.com/project-fifo/bugsnag-erlang.git",
+                                    {ref,
+                                     "6bd45c3937627fc209ef75c8b20219876dd46159"}})
+                                       "https://github.com/project-fifo/libchunter.git",
+                                       {ref,
+                                        "51c27c7ddeb40ab5b77181e69b7096f3b9a3d3af"}})
+                                     "https://github.com/project-fifo/libsnarl.git",
+                                     {ref,
+                                      "c8f73510456e667a8b30046a1ac303e25c64972e"}})
+                                       "https://github.com/project-fifo/libsniffle.git",
+                                       {ref,
+                                        "d2182a460fed55ecefa86adaef99f90e14293857"}})
+                                      "https://github.com/project-fifo/fifo_spec.git",
+                                      {ref,
+                                       "56db8e12b1e1a62df576aff76ab5371a8de2cecd"}})
+                                            <<"0.1.30">>})
+                                    "https://github.com/project-fifo/fifo_dt.git",
+                                    {ref,
+                                     "a3f57b14cdc65fc815f4212b01bb3c32cc7d0f28"}})
 [0m├─ base16─1.0.0
 ├─ bugsnag─0.1.0
 ├─ cowboy─2.0.0-pre.2
@@ -14,7 +33,7 @@
 ├─ jsone─1.2.0
 ├─ jsx─2.8.0
 ├─ jsxd─0.1.10
-├─ kennel─0.1.0
+├─ kennel─0.7.2
 ├─ lager─3.0.2
 │  └─ goldrush─0.1.7
 ├─ libchunter─0.1.42

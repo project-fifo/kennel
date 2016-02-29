@@ -21,3 +21,4 @@ _build
 kennel.version
 priv
 local.config
+rebar3.crashdump

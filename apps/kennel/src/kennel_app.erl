@@ -47,14 +47,24 @@ start(_StartType, _StartArgs) ->
          kennel_delete_h],
     [H:module_info() || H <- Handlers],
     Dispatch = cowboy_router:compile([{'_', DPRules}]),
+    Opts = [{port, SSLPort},
+            {cacertfile, SSLCA},
+            {certfile, SSLCert},
+            {keyfile, SSLKey}
+            %%, {fail_if_no_peer_cert, true}
+           , {verify, verify_peer}
+           ],
+    Opts1 = case application:get_env(kennel, ssl_depth) of
+                {ok, Depth}
+                  when is_integer(Depth),
+                       Depth >= 0,
+                       Depth =< 255 ->
+                    [ {depth, Depth} | Opts];
+                _ ->
+                    Opts
+            end,
     {ok, _} = cowboy:start_https(https, Acceptors,
-                                 [{port, SSLPort},
-                                  {cacertfile, SSLCA},
-                                  {certfile, SSLCert},
-                                  {keyfile, SSLKey}
-                                  %%, {fail_if_no_peer_cert, true}
-                                 , {verify, verify_peer}
-                                 ],
+                                 Opts1,
                                  [{env, [{dispatch, Dispatch}]}]),
     'kennel_sup':start_link().
 

@@ -38,7 +38,7 @@
  {<<"quickrand">>,{pkg,<<"quickrand">>,<<"1.5.1">>},2},
  {<<"ranch">>,
   {git,"https://github.com/project-fifo/ranch.git",
-       {ref,"dc794d20b62db87d8a0b61fdba466b07d425dfab"}},
+       {ref,"fe8fb752a3a32ba991625e9078e0ed258f6c272b"}},
   0},
  {<<"recon">>,{pkg,<<"recon">>,<<"2.2.1">>},0},
  {<<"riak_dt">>,{pkg,<<"riak_dt">>,<<"2.1.1">>},3},

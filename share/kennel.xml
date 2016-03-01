@@ -47,11 +47,11 @@ Copyright 2012 Project FiFo / Heinz N. Gies
         exec='/opt/local/fifo-kennel/bin/kennel %m'
         timeout_seconds='30'>
       <method_context>
-        <method_credential user='kennel' group='kennel' />
+        <method_credential user='kennel' group='kennel' privileges='basic,net_privaddr' />
         <method_environment>
           <envvar name='PATH' value='/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin'/>
-          <envvar name='HOME' value='/var/db/kennel'/>
-          <envvar name='ERL_CRASH_DUMP' value='/var/db/kennel'/>
+          <envvar name='HOME' value='/data/kennel/db'/>
+          <envvar name='ERL_CRASH_DUMP' value='/data/kennel/log'/>
         </method_environment>
       </method_context>
     </exec_method>
@@ -62,11 +62,11 @@ Copyright 2012 Project FiFo / Heinz N. Gies
         exec='/opt/local/fifo-kennel/bin/kennel %m'
         timeout_seconds='60'>
       <method_context>
-        <method_credential user='kennel' group='kennel' />
+        <method_credential user='kennel' group='kennel' privileges='basic,net_privaddr' />
         <method_environment>
           <envvar name='PATH' value='/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin'/>
-          <envvar name='HOME' value='/var/db/kennel'/>
-          <envvar name='ERL_CRASH_DUMP' value='/var/db/kennel'/>
+          <envvar name='HOME' value='/data/kennel/db'/>
+          <envvar name='ERL_CRASH_DUMP' value='/data/kennel/log'/>
         </method_environment>
       </method_context>
     </exec_method>
@@ -77,11 +77,11 @@ Copyright 2012 Project FiFo / Heinz N. Gies
         exec='/opt/local/fifo-kennel/bin/kennel smf-stop'
         timeout_seconds='60'>
       <method_context>
-        <method_credential user='kennel' group='kennel' />
+        <method_credential user='kennel' group='kennel' privileges='basic,net_privaddr' />
         <method_environment>
           <envvar name='PATH' value='/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin'/>
-          <envvar name='HOME' value='/var/db/kennel'/>
-          <envvar name='ERL_CRASH_DUMP' value='/var/db/kennel'/>
+          <envvar name='HOME' value='/data/kennel/db'/>
+          <envvar name='ERL_CRASH_DUMP' value='/data/kennel/log'/>
         </method_environment>
       </method_context>
     </exec_method>
@@ -89,7 +89,7 @@ Copyright 2012 Project FiFo / Heinz N. Gies
     <template>
       <common_name>
         <loctext xml:lang='C'>
-          Project FiFo's API Server.
+          Project FiFo's docker API.
         </loctext>
       </common_name>
     </template>

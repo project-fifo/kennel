@@ -24,3 +24,9 @@
 {mapping, "ssl.keyfile", "kennel.ssl_keyfile",
  [{default, "/var/db/fifo/fifo.key"},
   {datatype, file}]}.
+
+
+%% @doc The SSL Key file
+{mapping, "ssl.depth", "kennel.ssl_depth",
+ [hidden,
+  {datatype, integer}]}.

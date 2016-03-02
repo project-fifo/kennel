@@ -12,17 +12,17 @@
 
 %% @doc The SSL CA certificate.
 {mapping, "ssl.cacertfile", "kennel.ssl_cacertfile",
- [{default, "/var/db/fifo/fifo.crt"},
+ [{default, "{{db_path}}/fifo.crt"},
   {datatype, file}]}.
 
 %% @doc The SSL Server certificate
 {mapping, "ssl.certfile", "kennel.ssl_certfile",
- [{default, "/var/db/fifo/fifo.pem"},
+ [{default, "{{db_path}}/fifo.pem"},
   {datatype, file}]}.
 
 %% @doc The SSL Key file
 {mapping, "ssl.keyfile", "kennel.ssl_keyfile",
- [{default, "/var/db/fifo/fifo.key"},
+ [{default, "{{db_path}}/fifo.key"},
   {datatype, file}]}.
 
 

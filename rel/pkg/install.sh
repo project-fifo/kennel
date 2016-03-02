@@ -26,6 +26,7 @@ case $2 in
         echo Creating directories ...
         mkdir -p /data/kennel/db/ring
         mkdir -p /data/kennel/log/sasl
+        mkdir -p /data/kennel
         chown -R kennel:kennel /data/kennel
 
         if [ -d /tmp/sniffle ]

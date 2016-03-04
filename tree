@@ -33,5 +33,5 @@
 │  ├─ erlang_localtime─1.0.0
 │  └─ erlware_commons─0.18.0
 │     └─ cf─0.2.1
-├─ ranch─1.1.0p1
+├─ ranch─1.2.1p
 └─ recon─2.2.1

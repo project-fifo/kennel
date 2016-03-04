@@ -24,17 +24,24 @@ case $2 in
             /usr/sbin/usermod -K defaultpriv=basic,net_privaddr $USER
         fi
         echo Creating directories ...
-        mkdir -p /var/db/kennel/ring
-        chown -R kennel:kennel /var/db/kennel
-        mkdir -p /var/log/kennel/sasl
-        chown -R kennel:kennel /var/log/kennel
+        mkdir -p /data/kennel/db/ring
+        mkdir -p /data/kennel/log/sasl
+        mkdir -p /data/kennel/etc
+        chown -R kennel:kennel /data/kennel
+
+        if [ -d /tmp/sniffle ]
+        then
+            chown -R $USER:$GROUP /tmp/sniffle/
+        fi
 
         ;;
     POST-INSTALL)
         svccfg import /opt/local/fifo-kennel/share/kennel.xml
         echo Trying to guess configuration ...
         IP=`ifconfig net0 | grep inet | $AWK '{print $2}'`
-        CONFFILE=/opt/local/fifo-kennel/etc/kennel.conf
+
+        CONFFILE=/data/kennel/etc/kennel.conf
+        cp /opt/local/fifo-kennel/etc/kennel.conf.example ${CONFFILE}.example
 
         if [ ! -f "${CONFFILE}" ]
         then

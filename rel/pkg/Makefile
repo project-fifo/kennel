@@ -1,4 +1,4 @@
-VERSION=0.8.0
+VERSION=0.8.1
 COMPONENT_INTERNAL=kennel
 COMPONENT=fifo-kennel
 DEPS="erlang>=16.1.2" "coreutils>=8.22nb1" "sudo>=1.7.10p9"

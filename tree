@@ -1,22 +1,22 @@
 [0m├─ base16─1.0.0
-├─ bugsnag─0.1.3
+├─ bugsnag─0.1.4
 │  ├─ jsx─2.8.0
 │  └─ lager─2.1.1
-│     └─ goldrush─0.1.7
+│     └─ goldrush─0.1.8
 ├─ cowboy─2.0.0-pre.2
 │  └─ cowlib─1.3.0
 ├─ eper─0.94.0
 ├─ esel─0.1.2
-├─ fifo_lager─0.1.3
-│  ├─ lager_graylog─0.1.0
-│  └─ lager_logstash_backend─0.1.0
+├─ fifo_lager─0.1.4
+│  ├─ lager_graylog─0.1.1
+│  └─ lager_logstash_backend─0.1.1
 ├─ fifo_utils─0.1.22
 │  └─ uuid─1.5.1
-│     └─ quickrand─1.5.1
+│     └─ quickrand─1.5.2-rc1
 ├─ jsone─1.2.3
 ├─ jsxd─0.1.10
 ├─ kennel─0.8.1
-├─ libchunter─0.1.47
+├─ libchunter─0.1.48
 │  └─ fifo_spec─0.1.27
 │     └─ fifo_dt─0.1.66
 │        └─ riak_dt─2.1.1

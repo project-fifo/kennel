@@ -1,4 +1,5 @@
 .PHONY: rel package version all tree
+APP=kennel
 
 all: version compile
 

@@ -1,6 +1,6 @@
 {application, 'kennel',
  [{description, "FiFo Docker API"},
-  {vsn, "0.8.1"},
+  {vsn, "0.8.2"},
   {registered, []},
   {mod, {'kennel_app', []}},
   {applications,

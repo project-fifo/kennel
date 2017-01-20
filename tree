@@ -1,35 +1,35 @@
 [0m├─ base16─1.0.0
-├─ bugsnag─0.1.4
-│  ├─ jsx─2.8.0
-│  └─ lager─2.1.1
-│     └─ goldrush─0.1.8
+├─ bugsnag─1.1.3
+│  └─ lager─3.2.4
+│     └─ goldrush─0.1.9
 ├─ cowboy─2.0.0-pre.2
-│  └─ cowlib─1.3.0
+│  └─ cowlib─2.0.0-pre.1
 ├─ eper─0.94.0
 ├─ esel─0.1.2
 ├─ fifo_lager─0.1.4
 │  ├─ lager_graylog─0.1.1
 │  └─ lager_logstash_backend─0.1.1
-├─ fifo_utils─0.1.22
-│  └─ uuid─1.5.1
-│     └─ quickrand─1.5.2-rc1
-├─ jsone─1.2.3
-├─ jsxd─0.1.10
-├─ kennel─0.8.1
+│     └─ jsx─2.8.0
+├─ fifo_utils─0.1.30
+│  └─ uuid─1.5.4
+│     └─ quickrand─1.5.4
+├─ jsone─1.4.0
+├─ jsxd─0.2.3
+├─ kennel─0.9.0
 ├─ libchunter─0.1.48
-│  └─ fifo_spec─0.1.27
-│     └─ fifo_dt─0.1.66
+│  └─ fifo_spec─0.1.30
+│     └─ fifo_dt─0.2.4
 │        └─ riak_dt─2.1.1
-├─ libsnarl─0.3.46
+├─ libsnarl─0.3.48
 │  ├─ libsnarlmatch─0.1.7
-│  ├─ mdns_client_lib─0.1.39
-│  │  ├─ mdns_client─0.1.7
+│  ├─ mdns_client_lib─0.1.41
+│  │  ├─ mdns_client─0.1.8
 │  │  └─ pooler─1.5.0
 │  └─ oauth2─0.6.1
-├─ libsniffle─0.3.47
+├─ libsniffle─0.3.49
 ├─ qdate─0.4.3
 │  ├─ erlang_localtime─1.0.0
 │  └─ erlware_commons─0.20.0
 │     └─ cf─0.2.1
 ├─ ranch─1.2.1p
-└─ recon─2.3.1
+└─ recon─2.3.2

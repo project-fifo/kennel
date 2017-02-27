@@ -12,7 +12,7 @@
 
 %% @doc The SSL CA certificate.
 {mapping, "ssl.cacertfile", "kennel.ssl_cacertfile",
- [{default, "/data/fifo/ca/fifo.crt"},
+ [{default, "/data/fifo/ca/fifo-ca.pem"},
   {datatype, file}]}.
 
 %% @doc The SSL Server certificate

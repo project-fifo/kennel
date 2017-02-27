@@ -82,12 +82,12 @@ $SED -i "" 's,^\(ssl\.ca_key\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'-ca.key,' $SN
 
 # Config Kennel
 $SED -i "" 's,^\(ssl\.cacertfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'-ca.pem,' $KENNELCONF
-$SED -i "" 's,^\(ssl\.certfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'-ca.key,' $KENNELCONF
+$SED -i "" 's,^\(ssl\.certfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'.pem,' $KENNELCONF
 $SED -i "" 's,^\(ssl\.keyfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'.key,' $KENNELCONF
 
 # Config Howl
 $SED -i "" 's,^\(ssl\.cacertfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'-ca.pem,' $HOWLCONF
-$SED -i "" 's,^\(ssl\.certfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'-ca.key,' $HOWLCONF
+$SED -i "" 's,^\(ssl\.certfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'.pem,' $HOWLCONF
 $SED -i "" 's,^\(ssl\.keyfile\s*=\s*\).*$,\1'$CERTDIR'/'$CERTPREFIX'.key,' $HOWLCONF
 
 cat <<EOF

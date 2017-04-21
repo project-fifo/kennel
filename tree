@@ -5,6 +5,8 @@
 ├─ cowboy─2.0.0-pre.2
 │  └─ cowlib─2.0.0-pre.1
 ├─ eper─0.94.0
+├─ erlware_commons─1.0.0
+│  └─ cf─0.2.2
 ├─ esel─0.1.2
 ├─ fifo_lager─0.1.4
 │  ├─ lager_graylog─0.1.1
@@ -18,7 +20,7 @@
 ├─ kennel─0.9.1
 ├─ libchunter─0.1.48
 │  └─ fifo_spec─0.1.32
-│     └─ fifo_dt─0.2.8
+│     └─ fifo_dt─0.2.9
 │        └─ riak_dt─2.1.1
 ├─ libsnarl─0.3.52
 │  ├─ libsnarlmatch─0.1.8
@@ -28,8 +30,6 @@
 │  └─ oauth2─0.6.1
 ├─ libsniffle─0.3.52
 ├─ qdate─0.4.3
-│  ├─ erlang_localtime─1.0.0
-│  └─ erlware_commons─0.20.0
-│     └─ cf─0.2.1
+│  └─ erlang_localtime─1.0.0
 ├─ ranch─1.2.1p
 └─ recon─2.3.2

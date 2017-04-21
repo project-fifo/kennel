@@ -18,7 +18,7 @@ api_version() ->
     <<"1.20">>.
 
 docker_id() ->
-    base16:encode(crypto:rand_bytes(6)).
+    base16:encode(crypto:strong_rand_bytes(6)).
 
 to_docker(VM) ->
     case ft_vm:vm_type(VM) of

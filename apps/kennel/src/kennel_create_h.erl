@@ -24,7 +24,7 @@ post(Req, #{user := User} = State) ->
     {ok, U} = ls_user:get(User),
     lager:warning("[TODO] How to handle firewall rules here"),
     Networks0 = build_network(U, HostConfig),
-    Networks = maps:from_list(Networks),
+    Networks = maps:from_list(Networks0),
     %% We should let a user define what host/bridge and use -p/P to decide if
     %% we want private only or public
     %% this is just stupid but we need to configm with vmadm ...

@@ -42,7 +42,7 @@ is_running(V) ->
     (ft_vm:state(V) =:= <<"running">>)
         and (ft_vm:creating(V) =:= false).
 
-ensure_running(UUID, Socket, 1) ->
+ensure_running(UUID, _Socket, 1) ->
     case ls_vm:get(UUID) of
         {ok, V} ->
             case is_running(V) of

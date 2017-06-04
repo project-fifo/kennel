@@ -19,7 +19,7 @@ case $2 in
             echo "User already exists, skipping creation."
         else
             echo Creating kennel user ...
-            useradd -g $GROUP -d /var/db/kennel -s /bin/false $USER
+            useradd -g $GROUP -d /data/kennel -s /bin/false $USER
             echo "Granting permissions to use low port numbers"
             /usr/sbin/usermod -K defaultpriv=basic,net_privaddr $USER
         fi

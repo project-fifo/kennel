@@ -4,15 +4,9 @@
 %% This is horrible :/ but we need the socket
 
 context(Req) ->
-    Socket = cowboy_req:get(socket, Req),
-    case ssl:peercert(Socket) of
-        {error, E} ->
-            {error, E};
-        {ok, Cert} ->
-            Fingerprint = crypto:hash(sha, Cert),
-            ls_oauth:verify_access_token(Fingerprint)
-    end.
-
+    Cert = cowboy_req:cert(Req),
+    Fingerprint = crypto:hash(sha, Cert),
+    ls_oauth:verify_access_token(Fingerprint).
 
 api_version() ->
     <<"1.20">>.

@@ -9,5 +9,5 @@ permission(#{uuid := VM}) ->
 post(Req, State = #{uuid := UUID}) ->
     lager:warning("[TODO] How to handle signal?"),
     ok = ls_vm:stop(UUID, [force]),
-    Req1 = cowboy_req:reply(204, [], <<>>, Req),
+    Req1 = cowboy_req:reply(204, #{}, <<>>, Req),
     {ok, Req1, State}.

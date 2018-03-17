@@ -5,6 +5,8 @@
 -ignore_xref([behaviour_info/1, init/2]).
 
 -type state() :: #{
+             vm => map(),
+             uuid => binary(),
              method => method(),
              ctx => list(),
              user => binary(),
@@ -71,9 +73,8 @@ init(Req, State) ->
             validate_id(Req, State3);
         _ ->
             Req2 = cowboy_req:reply(
-                     401, [
-                           {<<"WWW-Authenticate">>, <<"ssl-client-cert">>}
-                          ], "", Req),
+                     401, #{<<"WWW-Authenticate">> => <<"ssl-client-cert">>}
+                          , "", Req),
             {ok, Req2, State}
     end.
 
@@ -106,7 +107,7 @@ validate_id(Req, State = #{id := ID}) ->
             State1 = State#{vm => Obj, uuid => UUID},
             check_permission(Req, State1);
         _ ->
-            Req2 = cowboy_req:reply(404, [], "", Req),
+            Req2 = cowboy_req:reply(404, #{}, "", Req),
             {ok, Req2, State}
     end;
 
@@ -124,7 +125,7 @@ check_permission(Req, State = #{user := User, handler := H, scope := Scope}) ->
                 true ->
                     check_method(Req, State);
                 false ->
-                    Req2 = cowboy_req:reply(403, [], "", Req),
+                    Req2 = cowboy_req:reply(403, #{}, "", Req),
                     {ok, Req2, State}
             end;
         false ->
@@ -153,9 +154,7 @@ check_method(Req, State = #{method := Verb, handler := H}) ->
         false ->
             lager:warning("Method ~s not allowed in handler ~s", [Verb, H]),
             Req2 = cowboy_req:reply(
-                     405, [
-                           {<<"Allowed">>, methods(H)}
-                          ], "", Req),
+                     405, #{<<"Allowed">> => methods(H)} , "", Req),
             {ok, Req2, State}
     end.
 
@@ -164,18 +163,17 @@ run(Req, State = #{method := Verb, handler := H}) ->
     case H:Verb(Req, State) of
         {ok, JSON, Req2, State1} ->
             Req3 = cowboy_req:reply(
-                     200, [
-                           {<<"content-type">>, <<"application/json">>}
-                          ], jsone:encode(JSON), Req2),
+                     200, #{<<"content-type">> => <<"application/json">>} ,
+                     jsone:encode(JSON), Req2),
             {ok, Req3, State1};
         {no_content, Req2, State1} ->
-            Req3 = cowboy_req:reply(204, [], "", Req2),
+            Req3 = cowboy_req:reply(204, #{}, "", Req2),
             {ok, Req3, State1};
         {error, not_found, Req2, State1} ->
-            Req3 = cowboy_req:reply(404, [], "", Req2),
+            Req3 = cowboy_req:reply(404, #{}, "", Req2),
             {ok, Req3, State1};
         {error, E, Req2, State1} ->
-            Req3 = cowboy_req:reply(503, [], atom_to_list(E), Req2),
+            Req3 = cowboy_req:reply(503, #{}, atom_to_list(E), Req2),
             {ok, Req3, State1};
         E ->
             E

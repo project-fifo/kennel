@@ -15,5 +15,5 @@ post(Req, State = #{uuid := UUID}) ->
             ok
     end,
     ok = ls_vm:stop(UUID),
-    Req1 = cowboy_req:reply(204, [], <<>>, Req),
+    Req1 = cowboy_req:reply(204, #{}, <<>>, Req),
     {ok, Req1, State}.

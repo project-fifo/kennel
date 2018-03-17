@@ -63,9 +63,9 @@ start(_StartType, _StartArgs) ->
                 _ ->
                     Opts
             end,
-    {ok, _} = cowboy:start_https(https, Acceptors,
-                                 Opts1,
-                                 [{env, [{dispatch, Dispatch}]}]),
+    {ok, _} = cowboy:start_tls(https,
+                               Opts1,
+                               #{env => #{dispatch => Dispatch}}),
     'kennel_sup':start_link().
 
 %%--------------------------------------------------------------------

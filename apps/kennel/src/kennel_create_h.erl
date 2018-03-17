@@ -9,7 +9,7 @@ permission(_) ->
 post(Req, #{user := User} = State) ->
     lager:warning("[TODO] The ID should be generated in sniffle?"),
     ID = kennel:docker_id(),
-    {ok, Body, Req1} = cowboy_req:body(Req),
+    {ok, Body, Req1} = cowboy_req:read_body(Req),
     lager:info("[create]: ~s~n", [Body]),
     #{
        <<"OpenStdin">>  := OpenStdin,

@@ -7,5 +7,5 @@ permission(#{uuid := VM}) ->
     [<<"vms">>, VM, <<"edit">>].
 
 post(Req, State) ->
-    Req1 = cowboy_req:reply(204, [], <<>>, Req),
+    Req1 = cowboy_req:reply(204, #{}, <<>>, Req),
     {ok, Req1, State}.

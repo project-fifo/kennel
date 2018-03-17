@@ -1,0 +1,3 @@
+VERSION=0.9.4
+COMPONENT_INTERNAL=kennel
+COMPONENT=fifo-kennel
